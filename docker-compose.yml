@@ -1,28 +1,32 @@
 services:
-
   db:
-    image: mysql:8.0
+    image: postgres:16-alpine
+    container_name: lab8-db
     environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: lab6
+      POSTGRES_DB: lab8
+      POSTGRES_USER: lab8user
+      POSTGRES_PASSWORD: lab8pass
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - db-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      test: [ "CMD-SHELL", "pg_isready -U lab8user -d lab8" ]
       interval: 5s
+      timeout: 5s
       retries: 10
 
   app:
     build: .
+    container_name: lab8-app
     ports:
       - "3000:3000"
     environment:
       DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: secret
-      DB_NAME: lab6
-      MODE: docker
+      DB_PORT: 5432
+      DB_USER: lab8user
+      DB_PASSWORD: lab8pass
+      DB_NAME: lab8
+      MODE: docker-compose
     depends_on:
       db:
         condition: service_healthy

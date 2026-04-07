@@ -1,13 +1,13 @@
 {
-  "name": "lab6-app",
+  "name": "lab8-cicd-app",
   "version": "1.0.0",
-  "description": "CISC 886 Lab 6 – Containerization demo app",
+  "description": "CISC 886 Lab 8 CI/CD app with PostgreSQL",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "mysql2": "^3.9.7"
+    "pg": "^8.12.0"
   }
 }
