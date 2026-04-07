@@ -17,6 +17,7 @@ services:
 
   app:
     build: .
+    image: mostafaelofy/lab8-app:latest
     container_name: lab8-app
     ports:
       - "3000:3000"
